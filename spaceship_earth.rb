@@ -13,6 +13,9 @@
 # to be when quetzacoatyl comes back (btw, that's Time.new(2012, 12, 22) if you want to figure out
 # how far you are going to travel before the world ends...)
 
+# for the shoes version: https://github.com/ivanoblomov/google_maps_geocoder
+# and to package as a gem: http://guides.rubygems.org/make-your-own-gem/
+
 require 'mathn'
 
 class SpaceshipEarth
