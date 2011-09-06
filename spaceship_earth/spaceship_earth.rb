@@ -13,7 +13,12 @@
 # to be when quetzacoatyl comes back (btw, that's Time.new(2012, 12, 22) if you want to figure out
 # how far you are going to travel before the world ends...)
 
+# for the shoes version: https://github.com/ivanoblomov/google_maps_geocoder
+# and for to package as a gem: http://guides.rubygems.org/make-your-own-gem/
+
 require 'mathn'
+require 'google_maps_geocoder'
+require 'green_shoes'
 
 class SpaceshipEarth
 
@@ -43,6 +48,57 @@ class SpaceshipEarth
     round_the_sun = (@there - here) * V_EARTH_AROUND_SUN
     round_ourselves = (@there - here) * Math.cos(@latitude) * V_EARTHS_SPIN
     return round_the_sun + round_ourselves
+  end
+end
+
+Shoes.app :width => 640, :height => 480 do
+  flow do
+    stack :width => 0.5 do
+      #setup
+      para "here"
+      edit_line do |t|
+        @here = t.text
+      end
+      #@here.text = "new york"
+      para "here time"
+      @here_time = edit_line
+      #@here_loc = GoogleMapsGeocoder.new @here
+
+      para "just to make sure..."
+      para "street: #{@here_loc.formatted_street_address if @here_loc}"
+      para "city: #{@here_loc.city if @here_loc}"
+      para "state: #{@here_loc.state_long_name if @here_loc}"
+      para "country: #{@here_loc.country_long_name if @here_loc}"
+
+    end
+    stack :width => 0.5 do
+      para "there"
+      edit_line do |t|
+        @there = t.text
+      end
+      #@there.text = "uzbekistan"
+      para "there time"
+      @there_time = edit_line
+      #@there_loc = GoogleMapsGeocoder.new @there
+
+      para "just to make sure..."
+      para "street: #{@there_loc.formatted_street_address if @there_loc}"
+      para "city: #{@there_loc.city if @there_loc}"
+      para "state: #{@there_loc.state_long_name if @there_loc}"
+      para "country: #{@there_loc.country_long_name if @there_loc}"
+
+    end
+  end
+  
+  button "GO!" do
+    if @here
+      para @here
+      #@here_loc = GoogleMapsGeocoder.new @here
+    end
+    if @there
+      para @there
+      #@there_loc = GoogleMapsGeocoder.new @there
+    end
   end
 end
 
