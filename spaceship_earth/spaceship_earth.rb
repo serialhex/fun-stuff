@@ -56,8 +56,8 @@ Shoes.app :width => 640, :height => 480 do
     stack :width => 0.5 do
       #setup
       para "here"
-      edit_line do |t|
-        @here = t.text
+      @here_line = edit_line do
+        @here = @here_line.text
       end
       #@here.text = "new york"
       para "here time"
