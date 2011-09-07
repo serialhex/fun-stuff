@@ -19,6 +19,7 @@
 require 'mathn'
 require 'google_maps_geocoder'
 require 'green_shoes'
+require 'pry'
 
 class SpaceshipEarth
 
@@ -54,52 +55,68 @@ end
 Shoes.app :width => 640, :height => 480 do
   flow do
     stack :width => 0.5 do
-      #setup
       para "here"
       @here_line = edit_line do
         @here = @here_line.text
       end
-      #@here.text = "new york"
+
       para "here time"
       @here_time = edit_line
-      #@here_loc = GoogleMapsGeocoder.new @here
 
       para "just to make sure..."
-      para "street: #{@here_loc.formatted_street_address if @here_loc}"
-      para "city: #{@here_loc.city if @here_loc}"
-      para "state: #{@here_loc.state_long_name if @here_loc}"
-      para "country: #{@here_loc.country_long_name if @here_loc}"
-
+      @h_street = para "street: "
+      @h_city = para "city: "
+      @h_state = para "state: "
+      @h_country = para "country: "
     end
+
     stack :width => 0.5 do
       para "there"
-      edit_line do |t|
-        @there = t.text
+      @there_line = edit_line do |t|
+        @there = @there_line.text
       end
-      #@there.text = "uzbekistan"
+
       para "there time"
       @there_time = edit_line
-      #@there_loc = GoogleMapsGeocoder.new @there
 
       para "just to make sure..."
-      para "street: #{@there_loc.formatted_street_address if @there_loc}"
-      para "city: #{@there_loc.city if @there_loc}"
-      para "state: #{@there_loc.state_long_name if @there_loc}"
-      para "country: #{@there_loc.country_long_name if @there_loc}"
+      @t_street = para "street: "
+      @t_city = para "city: "
+      @t_state = para "state: "
+      @t_country = para "country: "
+    end
+  end
 
-    end
-  end
-  
+
   button "GO!" do
-    if @here
-      para @here
-      #@here_loc = GoogleMapsGeocoder.new @here
+    begin
+      @here_loc = GoogleMapsGeocoder.new @here
+    rescue => e
+      alert "here evil exception of DHOOM!!! " + e.message
     end
-    if @there
-      para @there
-      #@there_loc = GoogleMapsGeocoder.new @there
+    if @here_loc
+      @h_street.text = "street: #{@here_loc.formatted_street_address}"
+      @h_city.text = "city: #{@here_loc.city}"
+      @h_state.text = "state: #{@here_loc.state_long_name}"
+      @h_country.text = "country: #{@here_loc.country_long_name}"
+    end
+    begin
+      @there_loc = GoogleMapsGeocoder.new @there
+    rescue => e
+      alert "there evil exception of DHOOM!!! " + e.message
+    end
+    if @there_loc
+      @t_street.text = "street: #{@there_loc.formatted_street_address}"
+      @t_city.text = "city: #{@there_loc.city}"
+      @t_state.text = "state: #{@there_loc.state_long_name}"
+      @t_country.text = "country: #{@there_loc.country_long_name}"
     end
   end
+
+  stack do
+    para 'stuff'
+  end
+
 end
 
 # see? simple!!
